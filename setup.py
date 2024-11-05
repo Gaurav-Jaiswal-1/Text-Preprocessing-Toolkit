@@ -23,7 +23,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 __version__ = "0.0.1"
 REPO_NAME = "Text-Preprocessing-Toolkit"
-PKG_NAME = "TPT"
+PKG_NAME = "Text-Preprocessing-Toolkit"
 AUTHOR_NAME = "Gaurav-Jaiswal-1"
 AUTHOR_EMAIL = "jaiswalagaurav863@gmail.com"
 
