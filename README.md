@@ -134,5 +134,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Author
 
-Your Name - [jaiswalgaurav863@gmail.com](mailto:jaiswalgaurav863@gmail.com)
+Gaurav Jaiswal - [jaiswalgaurav863@gmail.com](mailto:jaiswalgaurav863@gmail.com)
 
