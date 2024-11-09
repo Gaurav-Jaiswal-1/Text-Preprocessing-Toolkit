@@ -1,138 +1,135 @@
 
+
 # Text Preprocessing Toolkit
 
-The **Text Preprocessing Toolkit** is designed to automate common text preprocessing tasks such as tokenization, lemmatization, stop word removal, and normalization. It provides a customizable interface to help users efficiently prepare text data for analysis or machine learning applications.
-
-## Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Reference](#api-reference)
-  - [TextPreprocessor Class](#textpreprocessor-class)
-  - [Preprocessing Methods](#preprocessing-methods)
-- [Contributing](#contributing)
-- [License](#license)
-- [Author](#author)
+This repository contains a Python package for text preprocessing tasks. The toolkit includes functions for various preprocessing steps such as tokenization, lemmatization, stopword removal, text normalization, and more. It aims to provide a convenient and customizable solution for preparing text data for downstream tasks like natural language processing (NLP) and machine learning.
 
 ## Features
 
-- **Tokenization**: Split text into individual words or sentences.
-- **Lemmatization**: Reduce words to their base or dictionary form.
-- **Stop Word Removal**: Eliminate common words that do not contribute significant meaning.
-- **Text Normalization**: Convert text to a consistent format, such as lowercasing.
-- **Customizable Options**: Easily configure each preprocessing step to suit your needs.
+- **Lowercasing**: Convert all text to lowercase.
+- **Punctuation Removal**: Remove punctuation marks from text.
+- **Stopword Removal**: Remove common words (e.g., "and", "the") that do not contribute much meaning.
+- **Lemmatization**: Reduce words to their base or root form (e.g., "running" -> "run").
+- **Spell Correction**: Correct misspelled words in the text.
+- **URL and HTML Tag Removal**: Clean URLs and HTML tags from text.
+- **Special Character Removal**: Remove non-alphanumeric characters.
+
+## Requirements
+
+- Python 3.8 or higher
+- `flake8` for linting
+- `pytest` for testing
+- Any dependencies defined in `requirements.txt`
 
 ## Installation
 
-To install the package, you can use pip:
+To install the package, clone the repository and install the necessary dependencies.
+
+### Clone the repository:
 
 ```bash
-pip install text-preprocessing-toolkit
+git clone https://github.com/your-username/text-preprocessing-toolkit.git
+cd text-preprocessing-toolkit
 ```
 
-For development purposes, including optional dependencies for testing and linting, run:
+### Install dependencies:
 
 ```bash
-pip install text-preprocessing-toolkit[dev]
+pip install -r requirements.txt
+```
+
+Alternatively, if you want to install the package globally:
+
+```bash
+pip install .
 ```
 
 ## Usage
 
-Here’s how to use the toolkit in your Python code:
-
-### Basic Example
+You can use this toolkit in your Python project by importing the preprocessing functions:
 
 ```python
-from text_preprocessing_toolkit import TextPreprocessor
+from text_preprocessing_toolkit import processor
 
-# Create a TextPreprocessor instance with default settings
-preprocessor = TextPreprocessor()
+text = "Your sample text goes here!"
 
-# Example text
-text = "Natural Language Processing (NLP) is fascinating!"
+# Preprocess text
+cleaned_text = processor.preprocess(text, steps=[
+    "lowercase",
+    "remove_punctuation",
+    "remove_stopwords",
+    "lemmatize_text",
+    "remove_special_characters",
+    "remove_url",
+    "remove_html_tags",
+    "correct_spellings"
+])
 
-# Perform preprocessing
-processed_text = preprocessor.preprocess(text)
-
-print(processed_text)
+print(cleaned_text)
 ```
 
-### Customization Options
+### Available Preprocessing Steps:
 
-You can customize the behavior of the `TextPreprocessor` by specifying parameters during instantiation:
+- **lowercase**: Convert text to lowercase.
+- **remove_punctuation**: Remove punctuation characters.
+- **remove_stopwords**: Remove stopwords (common words like 'the', 'and', etc.).
+- **lemmatize_text**: Lemmatize words (reduce to base form).
+- **remove_special_characters**: Remove special characters from text.
+- **remove_url**: Remove URLs from text.
+- **remove_html_tags**: Remove HTML tags.
+- **correct_spellings**: Correct common spelling mistakes.
 
-```python
-preprocessor = TextPreprocessor(
-    remove_stopwords=True,
-    lemmatize=True,
-    lowercase=True
-)
+## Running Tests
+
+This repository includes unit and integration tests using `pytest`. To run the tests:
+
+1. Install `pytest` if you haven't already:
+
+```bash
+pip install pytest
 ```
 
-## API Reference
+2. Run the tests:
 
-### TextPreprocessor Class
-
-The `TextPreprocessor` class is the main interface for preprocessing text. You can create an instance of this class and call its methods to preprocess your text.
-
-#### Constructor
-
-```python
-TextPreprocessor(remove_stopwords=False, lemmatize=False, lowercase=False)
+```bash
+pytest
 ```
 
-- `remove_stopwords` (bool): Set to `True` to remove stop words during preprocessing.
-- `lemmatize` (bool): Set to `True` to apply lemmatization.
-- `lowercase` (bool): Set to `True` to convert text to lowercase.
+Tests are located in the `tests/` directory.
 
-#### Preprocessing Methods
+## Code Linting
 
-- `preprocess(text: str) -> str`:
-  - **Description**: Process the input text based on the specified configuration.
-  - **Parameters**: 
-    - `text` (str): The text to be processed.
-  - **Returns**: The processed text as a string.
+This project uses `flake8` for linting. To check the code for style issues:
 
-### Example
-
-```python
-text = "The quick brown fox jumps over the lazy dog."
-processed = preprocessor.preprocess(text)
-print(processed)  # Output will depend on the configured options
+```bash
+flake8 text_preprocessing_toolkit
 ```
+
+## CI/CD
+
+This repository is integrated with GitHub Actions for continuous integration and continuous deployment (CI/CD). Every time a new commit is pushed or a pull request is created to the `main` branch, the following steps will be automatically performed:
+
+- **Linting**: Code will be checked for style issues using `flake8`.
+- **Testing**: Unit tests will be run using `pytest`.
+- **Build**: The package will be built using `python -m build`.
+- **Publish**: The package will be uploaded to PyPI (if a release is created).
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps to contribute:
+We welcome contributions! If you'd like to contribute to the project, please follow these steps:
 
-1. **Fork the repository**: Click the "Fork" button on the top right of this page.
-2. **Clone your fork**: 
-   ```bash
-   git clone https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit.git
-   ```
-3. **Create a feature branch**: 
-   ```bash
-   git checkout -b feature/AmazingFeature
-   ```
-4. **Make your changes**: Edit the code as needed.
-5. **Commit your changes**: 
-   ```bash
-   git commit -m 'Add some amazing feature'
-   ```
-6. **Push to the branch**: 
-   ```bash
-   git push origin feature/AmazingFeature
-   ```
-7. **Open a pull request**: Go to the original repository and click "Compare & pull request."
-
-Please ensure that your code adheres to the project's coding standards and includes relevant tests.
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-name`).
+3. Make your changes and commit them (`git commit -m 'Add feature'`).
+4. Push to your forked repository (`git push origin feature-name`).
+5. Create a pull request.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Author
+---
 
-Gaurav Jaiswal - [jaiswalgaurav863@gmail.com](mailto:jaiswalgaurav863@gmail.com)
-
+### Notes:
+- Replace the repository URL in the `git clone` command with your actual GitHub repository URL.
+- Update any project-specific features or configurations that might be necessary.
