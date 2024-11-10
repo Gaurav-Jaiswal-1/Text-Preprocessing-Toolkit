@@ -1,47 +1,51 @@
-# This workflow will upload a Python Package to PyPI using Twine when a release is created.
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
+# Workflow to build and publish Python package to PyPI for Python versions 3.8 through 3.11
 
-name: Upload Text Preprocessing Toolkit Package
+name: Publish Python Package
 
 on:
   release:
-    types: [published]  # Trigger workflow on a published release
+    types: [published]
 
 permissions:
-  contents: read  # Minimum permission to read contents for deployment
+  contents: read
 
 jobs:
-  deploy:
+  publish-package:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        python-version: [3.8, 3.9, 3.10, 3.11]  # List of Python versions to test against
+        python-version: [3.8, 3.9, 3.10, 3.11]
 
     steps:
-      # Step 1: Checkout code from the repository
+      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python environment
-      - name: Set up Python
+      # Set up Python environment with matrix version
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
 
-      # Step 3: Install dependencies required for building the package
+      # Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build  # Ensure the build tool is available
+          pip install build twine
 
-      # Step 4: Build the package
-      - name: Build Text Preprocessing Toolkit package
-        run: python -m build  # Builds the package into distribution archives
+      # Build the package
+      - name: Build package
+        run: python -m build
 
-      # Step 5: Publish the package to PyPI (runs only on the latest Python version)
+      # Publish to PyPI only for one version (e.g., 3.11) to avoid duplicate uploads
       - name: Publish package to PyPI
-        if: matrix.python-version == '3.11'  # Specify a single version to publish the package
-        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+        if: matrix.python-version == '3.11'
+        uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
-          user: __token__  # Authentication using API token
-          password: ${{ secrets.PYPI_API_TOKEN }}  # PyPI token added as a GitHub secret for security
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+      # Optional: Notify on success
+      - name: Notify Success
+        if: success() && matrix.python-version == '3.11'
+        run: echo "🎉 Package successfully published to PyPI for Python ${{ matrix.python-version }}!"
