@@ -13,6 +13,9 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, 3.10, 3.11]  # List of Python versions to test against
 
     steps:
       # Step 1: Checkout code from the repository
@@ -23,7 +26,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: ["3.8", "3.9", "3.10", "3.11"]  # Replace '3.10' with the specific version compatible with your package
+          python-version: ${{ matrix.python-version }}
 
       # Step 3: Install dependencies required for building the package
       - name: Install dependencies
@@ -35,8 +38,9 @@ jobs:
       - name: Build Text Preprocessing Toolkit package
         run: python -m build  # Builds the package into distribution archives
 
-      # Step 5: Publish the package to PyPI
+      # Step 5: Publish the package to PyPI (runs only on the latest Python version)
       - name: Publish package to PyPI
+        if: matrix.python-version == '3.11'  # Specify a single version to publish the package
         uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
         with:
           user: __token__  # Authentication using API token
