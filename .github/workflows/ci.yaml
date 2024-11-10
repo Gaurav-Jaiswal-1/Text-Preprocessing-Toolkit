@@ -1,76 +1,47 @@
-name: CI
+# This workflow will upload a Python Package to PyPI using Twine when a release is created.
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
+
+name: Upload Text Preprocessing Toolkit Package
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  release:
+    types: [published]  # Trigger workflow on a published release
+
+permissions:
+  contents: read  # Minimum permission to read contents for deployment
 
 jobs:
-  lint:
-    runs-on: ${{ matrix.os }}
+  deploy:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.8, 3.9, 3.10, 3.11]  # No Python 3.1 version here
+        python-version: [3.8, 3.9, 3.10, 3.11]  # List of Python versions to test against
 
     steps:
+      # Step 1: Checkout code from the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Clear Cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
+      # Step 2: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install flake8
-        run: |
-          python -m pip install --upgrade pip
-          pip install flake8
-
-      - name: Run linter
-        run: flake8 text_preprocessing_toolkit
-
-  test:
-    runs-on: ${{ matrix.os }}
-    needs: lint
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.8, 3.9, 3.10, 3.11]  # No Python 3.1 version here
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Clear Cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: ${{ matrix.python-version }}
-
+      # Step 3: Install dependencies required for building the package
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest pytest-cov
+          pip install build  # Ensure the build tool is available
 
-      - name: Run tests
-        run: pytest --cov=text_preprocessing_toolkit --cov-report=term-missing
+      # Step 4: Build the package
+      - name: Build Text Preprocessing Toolkit package
+        run: python -m build  # Builds the package into distribution archives
+
+      # Step 5: Publish the package to PyPI (runs only on the latest Python version)
+      - name: Publish package to PyPI
+        if: matrix.python-version == '3.11'  # Specify a single version to publish the package
+        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+        with:
+          user: __token__  # Authentication using API token
+          password: ${{ secrets.PYPI_API_TOKEN }}  # PyPI token added as a GitHub secret for security
