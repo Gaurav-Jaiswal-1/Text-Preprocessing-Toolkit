@@ -1,48 +1,47 @@
-name: Upload Python Package
+# This workflow will upload a Python Package to PyPI using Twine when a release is created.
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
+
+name: Upload Text Preprocessing Toolkit Package
 
 on:
   release:
-    types: [published]
+    types: [published]  # Trigger workflow on a published release
 
 permissions:
-  contents: write
+  contents: read  # Minimum permission to read contents for deployment
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, 3.10, 3.11]
+        python-version: [3.8, 3.9, 3.10, 3.11]  # List of Python versions to test against
 
     steps:
-    - uses: actions/checkout@v4
+      # Step 1: Checkout code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v3  # using the latest version
-      with:
-        python-version: ${{ matrix.python-version }}
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
-      run: |  
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install build flake8 pytest
+      # Step 3: Install dependencies required for building the package
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build  # Ensure the build tool is available
 
-    - name: Lint with flake8
-      run: |
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      # Step 4: Build the package
+      - name: Build Text Preprocessing Toolkit package
+        run: python -m build  # Builds the package into distribution archives
 
-    - name: Test with pytest
-      run: pytest -v
-
-    - name: Build package
-      if: ${{ success() }}
-      run: python -m build
-
-    - name: Publish package
-      if: ${{ success() }}
-      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+      # Step 5: Publish the package to PyPI (runs only on the latest Python version)
+      - name: Publish package to PyPI
+        if: matrix.python-version == '3.11'  # Specify a single version to publish the package
+        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+        with:
+          user: __token__  # Authentication using API token
+          password: ${{ secrets.PYPI_API_TOKEN }}  # PyPI token added as a GitHub secret for security

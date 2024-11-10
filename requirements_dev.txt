@@ -5,10 +5,10 @@ spacy
 -e .
 
 # Development dependencies
-pytest==7.2.0       # Testing framework
-pytest-cov==4.0.0   # Coverage reporting
-flake8==6.0.0       # Linting
-black==23.1.0       # Code formatting
-mypy==0.991         # Static type checking
-sphinx==7.1.2       # Documentation generation
-sphinx-rtd-theme==1.2.0  # Sphinx theme for documentation
+pytest       # Testing framework
+pytest-cov   # Coverage reporting
+flake8      # Linting
+black       # Code formatting
+mypy         # Static type checking
+sphinx    # Documentation generation
+sphinx-rtd-theme  # Sphinx theme for documentation

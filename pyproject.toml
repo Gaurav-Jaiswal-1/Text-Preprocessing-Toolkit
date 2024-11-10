@@ -13,7 +13,6 @@ authors = [
     {name = "Gaurav-Jaiswal-1", email = "jaiswalgaurav863@gmail.com"},
 ]
 classifiers = [
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
