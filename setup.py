@@ -45,7 +45,7 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     install_requires=get_requirements("./requirements.txt"),
-    keywords= ['text preprocessing toolkit', 'automated text preprocessing', ]
+    keywords= ['text preprocessing toolkit', 'automated text preprocessing' ]
     
     )
 

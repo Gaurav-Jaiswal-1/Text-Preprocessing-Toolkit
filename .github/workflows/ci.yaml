@@ -31,7 +31,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4  # Using the latest version
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.8, 3.9, 3.10, 3.11
 
       - name: Log Python Version
         run: python --version
