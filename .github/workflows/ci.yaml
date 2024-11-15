@@ -42,7 +42,7 @@ jobs:
           pip install flake8
 
       - name: Run linter
-        run: flake8 text_preprocessing_toolkit
+        run: flake8 src/text_preprocessing_toolkit
 
   test:
     runs-on: ${{ matrix.os }}
@@ -67,7 +67,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.python-version == '3.8' && '3.8' && '3.9' && '3.10' || '3.11'   }}
 
       - name: Log Python Version
         run: python --version

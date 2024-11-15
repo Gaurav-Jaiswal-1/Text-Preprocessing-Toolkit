@@ -133,3 +133,5 @@ class TextPreprocessor:
         #     plt.show()
         # else:
         #     raise ValueError("The input should be a list or pandas Series of text entries.")
+if __name__ == "__main__":
+    TextPreprocessor()
