@@ -23,8 +23,8 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 __version__ = "0.0.1"
 REPO_NAME = "Text-Preprocessing-Toolkit"
-PKG_NAME = "Text-Preprocessing-Toolkit"
-AUTHOR_NAME = "Gaurav-Jaiswal-1"
+PKG_NAME = "Text_Preprocessing_Toolkit"
+AUTHOR_NAME = "Gaurav Jaiswal"
 AUTHOR_EMAIL = "jaiswalagaurav863@gmail.com"
 
 
@@ -38,13 +38,14 @@ setup(
     description="Automate text preprocessing tasks like tokenization, lemmatization, stop word removal, and normalization.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url=  f"https://github.com/{AUTHOR_NAME}/{REPO_NAME}",
+    url=  "https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit.git",
     project_urls={
-      "Bug Tracker": f"https://github.com/{AUTHOR_NAME}/{REPO_NAME}/issues",
+      "Bug Tracker": "https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/issues",
     },
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     install_requires=get_requirements("./requirements.txt"),
+    keywords= ['text preprocessing toolkit', 'automated text preprocessing', ]
     
     )
 
