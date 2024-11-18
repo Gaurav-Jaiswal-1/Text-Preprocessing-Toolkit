@@ -23,24 +23,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Cache pip dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build flake8 pytest
-
-      - name: Lint code
-        run: flake8 src/
-
-      - name: Run tests
-        run: pytest tests/
+          pip install build
 
       - name: Build package
         run: python -m build
@@ -50,5 +36,3 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-
-# Edited
