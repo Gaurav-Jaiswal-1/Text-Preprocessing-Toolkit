@@ -1,6 +1,4 @@
-# Workflow to build and publish Python package to PyPI for Python versions 3.8 through 3.11
-
-name: Publish Python Package
+name: Upload Python Package
 
 on:
   release:
@@ -10,42 +8,45 @@ permissions:
   contents: read
 
 jobs:
-  publish-package:
+  deploy:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         python-version: [3.8, 3.9, 3.10, 3.11]
 
     steps:
-      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Set up Python environment with matrix version
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
-      # Install dependencies
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build twine
+          pip install build flake8 pytest
 
-      # Build the package
+      - name: Lint code
+        run: flake8 src/
+
+      - name: Run tests
+        run: pytest tests/
+
       - name: Build package
         run: python -m build
 
-      # Publish to PyPI only for one version (e.g., 3.11) to avoid duplicate uploads
-      - name: Publish package to PyPI
-        if: matrix.python-version == '3.11'
-        uses: pypa/gh-action-pypi-publish@v1.5.0
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-
-      # Optional: Notify on success
-      - name: Notify Success
-        if: success() && matrix.python-version == '3.11'
-        run: echo "🎉 Package successfully published to PyPI for Python ${{ matrix.python-version }}!"
