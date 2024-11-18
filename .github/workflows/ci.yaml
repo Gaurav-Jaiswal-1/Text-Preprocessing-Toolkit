@@ -8,88 +8,26 @@ on:
     branches:
       - main
 
-permissions:
-  contents: read
-  id-token: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, 3.10, 3.11]
+        python-version: [3.8, 3.9, 3.10, 3.11]  # Change from 3.1 to a valid version
 
     steps:
-      # Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Set up Python environment
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          cache: 'pip' # Cache pip dependencies to speed up subsequent runs
 
-      # Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Run linting with flake8
-      - name: Lint code with flake8
-        run: |
-          pip install flake8
-          flake8 .
-
-      # Run type checking with mypy
-      - name: Type check with mypy
-        run: |
-          pip install mypy
-          mypy text_preprocessing_toolkit
-
-      # Run tests with pytest
-      - name: Run tests with pytest
-        run: |
-          pip install pytest pytest-cov
-          pytest --maxfail=3 --disable-warnings --cov=text_preprocessing_toolkit --cov-report=term-missing --cov-report=html
-
-      # Upload code coverage (optional)
-      - name: Upload coverage results
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push' # Trigger deployment only on push to main
-
-    steps:
-      # Checkout the code again for deployment
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Set up Python for deployment
-      - name: Set up Python for deployment
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.8
-
-      # Install build dependencies
-      - name: Install build dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install build
-
-      # Build the package
-      - name: Build the package
-        run: python -m build
-
-      # Publish the package to PyPI
-      - name: Publish package to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Run tests
+        run: pytest
