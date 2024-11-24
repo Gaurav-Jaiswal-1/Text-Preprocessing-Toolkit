@@ -48,8 +48,8 @@ dev = [
 ]
 
 [project.scripts]
-# Placeholder for CLI entry point
-text-preprocess = "text_preprocessing_toolkit.main:main"
+# CLI entry point
+"text-preprocess" = "text_preprocessing_toolkit.main:main"
 
 [tool.pytest.ini_options]
 # Pytest configuration for tests and coverage
@@ -63,5 +63,5 @@ exclude = ".git,__pycache__,docs,build,dist"
 
 [tool.mypy]
 # Mypy type checking configuration
-files = "text_preprocessing_toolkit"
+files = ["text_preprocessing_toolkit"]
 ignore_missing_imports = true
