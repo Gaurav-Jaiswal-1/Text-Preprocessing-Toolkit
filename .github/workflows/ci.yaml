@@ -10,11 +10,9 @@ on:
 
 jobs:
   test:
-    name: Test with Multiple Python Versions
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest]
         python-version: ['3.8', '3.9', '3.10', '3.11']  # Test on multiple Python versions
 
     steps:
@@ -40,7 +38,6 @@ jobs:
         run: tox
 
   lint:
-    name: Code Linting
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository
@@ -65,7 +62,6 @@ jobs:
         run: tox -e lint
 
   type-check:
-    name: Static Type Checking
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository
@@ -90,7 +86,6 @@ jobs:
         run: tox -e type-check
 
   docs:
-    name: Documentation Build
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository
