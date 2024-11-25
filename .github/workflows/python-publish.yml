@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11'] # Test on multiple Python versions
+        python-version: ['3.8', '3.9', '3.10', '3.11']  # Test across multiple Python versions
 
     steps:
       # Checkout repository code
@@ -31,8 +31,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      # Install dependencies and run tests with Tox
-      - name: Run tests with Tox
+      # Install dependencies and run tests
+      - name: Install dependencies and run tests
         run: |
           python -m pip install --upgrade pip
           pip install tox
@@ -52,8 +52,8 @@ jobs:
           python-version: '3.10'
           cache: pip
 
-      # Install dependencies and run linting with Tox
-      - name: Run linting with Tox
+      # Install linting dependencies and run linting
+      - name: Install dependencies and run linting
         run: |
           python -m pip install --upgrade pip
           pip install tox
@@ -73,8 +73,8 @@ jobs:
           python-version: '3.10'
           cache: pip
 
-      # Install dependencies and run type-checking with Tox
-      - name: Run type-checking with Tox
+      # Install type-checking dependencies and run type-checking
+      - name: Install dependencies and run type-checking
         run: |
           python -m pip install --upgrade pip
           pip install tox
@@ -83,7 +83,7 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push' # Deploy only on push to main branch
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'  # Deploy only on push to main
 
     steps:
       # Checkout repository code
@@ -98,14 +98,14 @@ jobs:
           cache: pip
 
       # Install build tools and dependencies
-      - name: Install build dependencies
+      - name: Install build tools
         run: |
           python -m pip install --upgrade pip
-          pip install tox build twine
+          pip install build twine
 
-      # Build the package with Tox
-      - name: Build package with Tox
-        run: tox -e build
+      # Build the package
+      - name: Build package
+        run: python -m build
 
       # Publish to PyPI
       - name: Publish to PyPI
