@@ -1,6 +1,6 @@
+# Runtime dependencies
 nltk
 spacy
 spellchecker
-pytest
 matplotlib
 pandas

@@ -1,14 +1,17 @@
 # Runtime dependencies
 nltk
 spacy
+spellchecker
+matplotlib
+pandas
 
 -e .
 
 # Development dependencies
 pytest       # Testing framework
 pytest-cov   # Coverage reporting
-flake8      # Linting
-black       # Code formatting
+flake8       # Linting
+black        # Code formatting
 mypy         # Static type checking
-sphinx    # Documentation generation
+sphinx       # Documentation generation
 sphinx-rtd-theme  # Sphinx theme for documentation
