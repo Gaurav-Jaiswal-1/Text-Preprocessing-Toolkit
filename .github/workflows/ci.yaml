@@ -85,7 +85,7 @@ jobs:
 
       # Run type checking
       - name: Run type checking
-        run: mypy Text_Preprocessing_Toolkit
+        run: mypy src/Text_Preprocessing_Toolkit
 
   docs:
     runs-on: ubuntu-latest

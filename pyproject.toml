@@ -46,10 +46,10 @@ dev = [
 ]
 
 [project.scripts]
-"text-preprocess" = "main:main"
+"text-preprocess" = "src.Text_Preprocessing_Toolkit.main:main"  # Corrected path to main.py
 
 [tool.pytest.ini_options]
-addopts = "--cov=main --cov-report=term-missing --cov-report=html"
+addopts = "--cov=src.Text_Preprocessing_Toolkit.main --cov-report=term-missing --cov-report=html"
 testpaths = ["tests"]
 
 [tool.flake8]
@@ -65,7 +65,7 @@ exclude = [
 ]
 
 [tool.mypy]
-files = ["main"]
+files = ["src/Text_Preprocessing_Toolkit/main.py"]  # Corrected path to main.py
 ignore_missing_imports = true
 strict = true
 

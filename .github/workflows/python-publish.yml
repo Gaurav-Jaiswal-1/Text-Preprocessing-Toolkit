@@ -3,16 +3,17 @@ name: Python Package CI/CD Workflow
 on:
   push:
     branches:
-      - main
+      - main  # Trigger on push to the main branch
   pull_request:
     branches:
-      - main
+      - main  # Trigger on pull request to the main branch
 
 permissions:
   contents: read
   id-token: write
 
 jobs:
+  # Job to run tests across multiple Python versions
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -29,15 +30,16 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
+          cache: pip  # Cache pip dependencies
 
-      # Install dependencies and run tests
+      # Install dependencies and run tests using tox
       - name: Install dependencies and run tests
         run: |
           python -m pip install --upgrade pip
           pip install tox
           tox
 
+  # Job to run linting checks
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -46,19 +48,20 @@ jobs:
         uses: actions/checkout@v4
 
       # Set up Python environment
-      - name: Set up Python
+      - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
           cache: pip
 
-      # Install linting dependencies and run linting
+      # Install dependencies and run linting
       - name: Install dependencies and run linting
         run: |
           python -m pip install --upgrade pip
           pip install tox
-          tox -e lint
+          tox -e lint  # Run linting with tox
 
+  # Job to perform type checking
   type-check:
     runs-on: ubuntu-latest
     steps:
@@ -67,21 +70,22 @@ jobs:
         uses: actions/checkout@v4
 
       # Set up Python environment
-      - name: Set up Python
+      - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
           cache: pip
 
-      # Install type-checking dependencies and run type-checking
+      # Install dependencies and run type-checking
       - name: Install dependencies and run type-checking
         run: |
           python -m pip install --upgrade pip
           pip install tox
-          tox -e type-check
+          tox -e type-check  # Run type checking with tox
 
+  # Job to deploy the package to PyPI
   deploy:
-    needs: test
+    needs: [test, lint, type-check]  # Deploy after tests, linting, and type-checking pass
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'  # Deploy only on push to main
 
@@ -91,7 +95,7 @@ jobs:
         uses: actions/checkout@v4
 
       # Set up Python environment
-      - name: Set up Python
+      - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
@@ -105,11 +109,11 @@ jobs:
 
       # Build the package
       - name: Build package
-        run: python -m build
+        run: python -m build  # Build the distribution package
 
-      # Publish to PyPI
+      # Publish the package to PyPI
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          user: __token__  # Use the GitHub token
+          password: ${{ secrets.PYPI_API_TOKEN }}  # Retrieve PyPI token from GitHub secrets
