@@ -20,86 +20,65 @@ jobs:
         python-version: ['3.8', '3.9', '3.10', '3.11'] # Test on multiple Python versions
 
     steps:
-      # Step 1: Checkout repository code
+      # Checkout repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python environment
+      # Set up Python environment
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
+      # Install dependencies and run tests with Tox
+      - name: Run tests with Tox
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
           pip install tox
-
-      # Step 4: Run tests with Tox
-      - name: Run tests with Tox
-        run: tox
-
-      # # Step 5: Upload test coverage to Codecov
-      # - name: Upload coverage to Codecov
-      #   uses: codecov/codecov-action@v3
-      #   with:
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #   if: ${{ secrets.CODECOV_TOKEN != '' }}
+          tox
 
   lint:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout repository code
+      # Checkout repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python environment
+      # Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
           cache: pip
 
-      # Step 3: Install linting tools
-      - name: Install linting dependencies
+      # Install dependencies and run linting with Tox
+      - name: Run linting with Tox
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 black
-
-      # Step 4: Run Flake8
-      - name: Lint code with Flake8
-        run: flake8 . || exit 1
-
-      # Step 5: Run Black for formatting
-      - name: Check formatting with Black
-        run: black --check . || exit 1
+          pip install tox
+          tox -e lint
 
   type-check:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout repository code
+      # Checkout repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python environment
+      # Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
           cache: pip
 
-      # Step 3: Install type-checking tools
-      - name: Install type-checking dependencies
+      # Install dependencies and run type-checking with Tox
+      - name: Run type-checking with Tox
         run: |
           python -m pip install --upgrade pip
-          pip install mypy
-
-      # Step 4: Run type checking
-      - name: Type check with MyPy
-        run: mypy . || exit 1
+          pip install tox
+          tox -e type-check
 
   deploy:
     needs: test
@@ -107,28 +86,28 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push' # Deploy only on push to main branch
 
     steps:
-      # Step 1: Checkout repository code
+      # Checkout repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python environment
+      # Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
           cache: pip
 
-      # Step 3: Install build tools
+      # Install build tools and dependencies
       - name: Install build dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build twine
+          pip install tox build twine
 
-      # Step 4: Build the package
-      - name: Build package
-        run: python -m build
+      # Build the package with Tox
+      - name: Build package with Tox
+        run: tox -e build
 
-      # Step 5: Publish to PyPI
+      # Publish to PyPI
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:

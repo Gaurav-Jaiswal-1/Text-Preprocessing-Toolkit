@@ -55,7 +55,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox
+          pip install flake8 black tox
 
       # Run linting
       - name: Run linting
@@ -79,7 +79,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox
+          pip install mypy tox
 
       # Run type checking
       - name: Run type checking
@@ -103,8 +103,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox
+          pip install sphinx sphinx-rtd-theme tox
 
-      # Clean and Build documentation
+      # Build documentation
       - name: Build documentation
         run: tox -e docs

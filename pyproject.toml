@@ -10,16 +10,19 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Gaurav-Jaiswal-1", email = "jaiswalgaurav863@gmail.com"},
+    {name = "Gaurav Jaiswal", email = "jaiswalgaurav863@gmail.com"},
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries",
     "Topic :: Text Processing :: Linguistic",
 ]
 urls = { 
@@ -27,41 +30,50 @@ urls = {
 }
 
 dependencies = [
-    # Core dependencies for text preprocessing
     "nltk>=3.8.1",
     "spacy>=3.6.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    # Testing and coverage
     "pytest>=7.2.0",
     "pytest-cov>=4.0.0",
-    # Linting and formatting
     "flake8>=6.0.0",
     "black>=23.1.0",
-    # Type checking
     "mypy>=0.991",
-    # Documentation
     "sphinx>=7.1.2",
     "sphinx-rtd-theme>=1.2.0",
 ]
 
 [project.scripts]
-# CLI entry point
-"text-preprocess" = "text_preprocessing_toolkit.main:main"
+"text-preprocess" = "text_preprocessing_toolkit:main"
 
 [tool.pytest.ini_options]
-# Pytest configuration for tests and coverage
 addopts = "--cov=text_preprocessing_toolkit --cov-report=term-missing --cov-report=html"
 testpaths = ["tests"]
 
 [tool.flake8]
-# Flake8 linting configuration
 max-line-length = 88
-exclude = ".git,__pycache__,docs,build,dist"
+exclude = [
+    ".tox",
+    ".git",
+    "__pycache__",
+    "docs",
+    "build",
+    "dist",
+    "*.egg-info",
+]
 
 [tool.mypy]
-# Mypy type checking configuration
 files = ["text_preprocessing_toolkit"]
 ignore_missing_imports = true
+strict = true
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310", "py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+skip = ["docs", "build", "dist", ".tox", "*.egg-info"]
