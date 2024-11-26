@@ -24,7 +24,7 @@ classifiers = [
 
 # Correct syntax for URLs
 urls = { 
-    "Homepage" = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit"
+    "Homepage" = "https://github.com/Gaurav-Jaiswal-1"
 }
 
 
