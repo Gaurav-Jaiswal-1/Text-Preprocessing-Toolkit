@@ -9,6 +9,7 @@ from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk import pos_tag
 from spellchecker import SpellChecker
 import nltk
+from IPython.display import display  # Importing the display function
 import matplotlib.pyplot as plt
 
 # Download required NLTK resources if not already downloaded
