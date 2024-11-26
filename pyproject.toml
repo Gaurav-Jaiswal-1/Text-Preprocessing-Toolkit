@@ -1,8 +1,6 @@
 [build-system]
-# A list of packages that are needed to build your package:
-requires = ["setuptools"] # REQUIRED if [build-system] table is used
-# The name of the Python object that frontends will use to perform the build:
-build-backend = "setuptools.build_meta" # If not defined, then legacy behavior can happen.
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "text-preprocessing-toolkit"
@@ -28,13 +26,14 @@ classifiers = [
     "Topic :: Text Processing :: Linguistic",
 ]
 
-[project.urls]
-"Homepage" = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit"
-
+[project]
 dependencies = [
     "nltk>=3.8.1",
-    "spacy>=3.6.0",
+    "spacy>=3.6.0"
 ]
+
+[project.urls]
+"Homepage" = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit"
 
 [project.optional-dependencies]
 dev = [
@@ -82,3 +81,4 @@ target-version = ["py38", "py39", "py310", "py311"]
 profile = "black"
 line_length = 88
 skip = ["docs", "build", "dist", ".tox", "*.egg-info"]
+
