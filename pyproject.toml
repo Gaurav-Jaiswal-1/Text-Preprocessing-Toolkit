@@ -22,10 +22,10 @@ classifiers = [
     "Topic :: Text Processing :: Linguistic",
 ]
 
-# Corrected URLs field
-urls = { 
-    "Homepage" = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit" 
-}
+# Corrected format for URLs (using an array instead of a dictionary)
+urls = [
+    {homepage = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit"}
+]
 
 
 dependencies = [
