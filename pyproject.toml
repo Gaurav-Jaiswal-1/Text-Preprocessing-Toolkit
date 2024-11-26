@@ -22,9 +22,9 @@ classifiers = [
     "Topic :: Text Processing :: Linguistic",
 ]
 
-# Correct syntax for URLs
+# Corrected URLs field
 urls = { 
-    "Homepage" = "https://github.com/Gaurav-Jaiswal-1"
+    "Homepage" = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit" 
 }
 
 
