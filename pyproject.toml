@@ -1,12 +1,17 @@
-[tool.poetry]
+[build-system]
+requires = ["setuptools>=61.0", "wheel>=0.36.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
 name = "text-preprocessing-toolkit"
 version = "0.0.1"
 description = "Automate text preprocessing tasks like tokenization, lemmatization, stop word removal, and normalization."
-authors = ["Gaurav Jaiswal <jaiswalgaurav863@gmail.com>"]
-license = "MIT"
-repository = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit"
-homepage = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit"
 readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Gaurav Jaiswal", email = "jaiswalgaurav863@gmail.com"},
+]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -20,25 +25,28 @@ classifiers = [
     "Topic :: Software Development :: Libraries",
     "Topic :: Text Processing :: Linguistic",
 ]
+urls = { 
+    "homepage" = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit" 
+}
 
-packages = [
-    {include = "src.Text_Preprocessing_Toolkit"}
+dependencies = [
+    "nltk>=3.8.1",
+    "spacy>=3.6.0",
 ]
-include = ["docs", "tests", "examples"]
 
-[tool.poetry.dependencies]
-python = ">=3.8"
-nltk = ">=3.8.1"
-spacy = ">=3.6.0"
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.2.0",
+    "pytest-cov>=4.0.0",
+    "flake8>=6.0.0",
+    "black>=23.1.0",
+    "mypy>=0.991",
+    "sphinx>=7.1.2",
+    "sphinx-rtd-theme>=1.2.0",
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = ">=7.2.0"
-pytest-cov = ">=4.0.0"
-flake8 = ">=6.0.0"
-black = ">=23.1.0"
-mypy = ">=0.991"
-sphinx = ">=7.1.2"
-sphinx-rtd-theme = ">=1.2.0"
+[project.scripts]
+"text-preprocess" = "src.Text_Preprocessing_Toolkit.main:main"
 
 [tool.pytest.ini_options]
 addopts = "--cov=src.Text_Preprocessing_Toolkit.main --cov-report=term-missing --cov-report=html"
@@ -62,6 +70,7 @@ files = ["src/Text_Preprocessing_Toolkit/main.py"]
 ignore_missing_imports = true
 strict = true
 
+
 [tool.black]
 line-length = 88
 target-version = ["py38", "py39", "py310", "py311"]
@@ -71,6 +80,5 @@ profile = "black"
 line_length = 88
 skip = ["docs", "build", "dist", ".tox", "*.egg-info"]
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.some-tool]
+valid_key = "some value"
