@@ -25,7 +25,7 @@ classifiers = [
 # Corrected URLs field
 urls = [{ 
     "Homepage" = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit" 
-}]
+},]
 
 
 dependencies = [
