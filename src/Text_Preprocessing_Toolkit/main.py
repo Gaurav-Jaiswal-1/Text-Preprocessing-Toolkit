@@ -109,7 +109,7 @@ class TextPreprocessor:
         ]
         steps = steps if steps else default_pipeline
         for step in steps:
-            text = getattr(self, step)(text)  # type: ignore
+            text = getattr(self, step)(text)
         return text
 
     def head(self, texts: Union[List[str], pd.Series], n: int = 5) -> None:
