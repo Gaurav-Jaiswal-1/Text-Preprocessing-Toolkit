@@ -46,7 +46,7 @@ dev = [
 ]
 
 [project.scripts]
-"text-preprocess" = "src.Text_Preprocessing_Toolkit.main:main"  # Corrected path to main.py
+"text-preprocess" = "src.Text_Preprocessing_Toolkit.main:main"
 
 [tool.pytest.ini_options]
 addopts = "--cov=src.Text_Preprocessing_Toolkit.main --cov-report=term-missing --cov-report=html"
@@ -63,9 +63,10 @@ exclude = [
     "dist",
     "*.egg-info",
 ]
+ignore = ["E203", "E266", "E501", "W503"]
 
 [tool.mypy]
-files = ["src/Text_Preprocessing_Toolkit/main.py"]  # Corrected path to main.py
+files = ["src/Text_Preprocessing_Toolkit/main.py"]
 ignore_missing_imports = true
 strict = true
 
@@ -73,12 +74,10 @@ strict = true
 line-length = 88
 target-version = ["py38", "py39", "py310", "py311"]
 
-[tool.flake8]
-max-line-length = 88
-ignore = ["E203", "E266", "E501", "W503"]
-
-
 [tool.isort]
 profile = "black"
 line_length = 88
 skip = ["docs", "build", "dist", ".tox", "*.egg-info"]
+
+[tool.some-tool]
+valid_key = "some value"
