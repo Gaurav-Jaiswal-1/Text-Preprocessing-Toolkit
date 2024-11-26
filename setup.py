@@ -5,6 +5,7 @@ import os
 # Constant for editable install
 HYPHEN_E_DOT = "-e ."
 
+
 def get_requirements(file_path: str) -> List[str]:
     """
     Reads the requirements file and returns a list of dependencies.
@@ -21,6 +22,7 @@ def get_requirements(file_path: str) -> List[str]:
     except FileNotFoundError:
         print(f"Warning: {file_path} not found. Proceeding with empty requirements.")
     return requirements
+
 
 # Read the long description from the README.md file
 long_description = ""
@@ -51,7 +53,9 @@ setup(
     },
     package_dir={"": "src"},  # Ensure the source code is under the `src` folder
     packages=find_packages(where="src"),
-    install_requires=get_requirements(REQUIREMENTS_FILE),  # Dependencies from requirements.txt
+    install_requires=get_requirements(
+        REQUIREMENTS_FILE
+    ),  # Dependencies from requirements.txt
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Programming Language :: Python :: 3.8",
