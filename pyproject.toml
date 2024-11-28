@@ -1,84 +1,97 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=42.0", "wheel", "build"]
 build-backend = "setuptools.build_meta"
 
-[project]
-name = "text-preprocessing-toolkit"
-version = "0.0.1"
-description = "Automate text preprocessing tasks like tokenization, lemmatization, stop word removal, and normalization."
-readme = "README.md"
-requires-python = ">=3.8"
-license = { text = "MIT" }
-authors = [
-    { name = "Gaurav Jaiswal", email = "jaiswalgaurav863@gmail.com" },
-]
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Developers",
-    "Natural Language :: English",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Text Processing :: Linguistic",
-]
-
-[project]
-dependencies = [
-    "nltk>=3.8.1",
-    "spacy>=3.6.0"
-]
-
-[project.urls]
-"Homepage" = "https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit"
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.2.0",
-    "pytest-cov>=4.0.0",
-    "flake8>=6.0.0",
-    "black>=23.1.0",
-    "mypy>=0.991",
-    "sphinx>=7.1.2",
-    "sphinx-rtd-theme>=1.2.0",
-    "isort>=5.12.0",
-    "build>=0.10.0",
-]
-
-[project.scripts]
-"text-preprocess" = "src.Text_Preprocessing_Toolkit.main:main"
-
 [tool.pytest.ini_options]
-addopts = "--cov=src.Text_Preprocessing_Toolkit --cov-report=term-missing --cov-report=html"
-testpaths = ["tests"]
-
-[tool.flake8]
-max-line-length = 88
-exclude = [
-    ".tox",
-    ".git",
-    "__pycache__",
-    "docs",
-    "build",
-    "dist",
-    "*.egg-info",
+# Specify test directories
+testpaths = [
+    "tests"
 ]
-ignore = ["E203", "E266", "E501", "W503"]
+# Set verbosity for better test output
+addopts = "-v"
 
 [tool.mypy]
-files = ["src/Text_Preprocessing_Toolkit"]
+# Add source directory for type checking
+mypy_path = "src"
+# Ignore missing imports from external packages
 ignore_missing_imports = true
+# Enable strict mode for better type safety
 strict = true
+# Enable incremental mode for faster checks
+incremental = true
+
+[tool.flake8]
+# Set max line length for linting
+max-line-length = 120
+# Specify files/directories to exclude
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist"
+]
+# Enable complexity threshold
+max-complexity = 10
+# Show linting statistics
+count = true
+statistics = true
 
 [tool.black]
+# Use Black for code formatting
 line-length = 88
-target-version = ["py38", "py39", "py310", "py311"]
+target-version = ['py38', 'py39']
+skip-string-normalization = false
 
 [tool.isort]
+# Configure isort for import sorting
 profile = "black"
 line_length = 88
-skip = ["docs", "build", "dist", ".tox", "*.egg-info"]
+multi_line_output = 3
+include_trailing_comma = true
+known_third_party = ["pytest", "mypy"]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 
+[metadata]
+# Metadata for the package
+name = "your_package_name"
+version = "0.0.1"
+description = "Text Preprocessing Toolkit."
+author = "Gaurav Jaiswal"
+author_email = "jaiswalgaurav863@gmail.com"
+license = "MIT"
+url = "https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit"
+keywords = ["example", "pyproject", "python-package"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+[options]
+# Python package requirements
+packages = find:
+python_requires = ">=3.8"
+install_requires = [
+    "requests",
+    "numpy"
+]
+
+[options.extras_require]
+# Optional dependencies
+dev = [
+    "pytest",
+    "flake8",
+    "black",
+    "isort",
+    "mypy",
+    "build"
+]
+
+[options.package_data]
+# Include data files in the package
+* = ["*.txt", "*.rst", "*.md"]
+
+[options.entry_points]
+# Command-line entry points
+console_scripts =
+    your_command = your_package.module:main
