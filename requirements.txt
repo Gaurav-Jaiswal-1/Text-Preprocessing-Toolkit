@@ -1,6 +1,9 @@
 # Runtime dependencies
-nltk
-spacy
 spellchecker
 matplotlib
 pandas
+
+
+spacy==3.4.1
+numpy==1.21.6
+nltk==3.9.1
