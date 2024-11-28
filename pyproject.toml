@@ -39,7 +39,7 @@ statistics = true
 [tool.black]
 # Use Black for code formatting
 line-length = 88
-target-version = ['py38', 'py39']
+target-version = ['py38', 'py39', py310]
 skip-string-normalization = false
 
 [tool.isort]
