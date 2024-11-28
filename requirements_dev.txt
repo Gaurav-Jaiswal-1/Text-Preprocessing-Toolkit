@@ -15,3 +15,4 @@ black        # Code formatting
 mypy         # Static type checking
 sphinx       # Documentation generation
 sphinx-rtd-theme  # Sphinx theme for documentation
+numpy
