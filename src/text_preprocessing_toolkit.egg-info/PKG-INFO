@@ -1,12 +1,14 @@
 Metadata-Version: 2.1
-Name: text-preprocessing-toolkit
+Name: Text_Preprocessing_Toolkit
 Version: 0.0.1
 Summary: Automate text preprocessing tasks like tokenization, lemmatization, stop word removal, and normalization.
 Home-page: https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit.git
 Author: Gaurav Jaiswal
-Author-email: Gaurav-Jaiswal-1 <jaiswalgaurav863@gmail.com>
+Author-email: jaiswalgaurav863@gmail.com
 License: MIT
-Project-URL: homepage, https://github.com/Gaurav-Jaiswal-1/text-preprocessing-toolkit
+Project-URL: Bug Tracker, https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/issues
+Project-URL: Documentation, https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/wiki
+Keywords: text preprocessing toolkit,automated text preprocessing
 Classifier: Development Status :: 3 - Alpha
 Classifier: Programming Language :: Python :: 3.8
 Classifier: Programming Language :: Python :: 3.9
@@ -17,8 +19,12 @@ Classifier: Operating System :: OS Independent
 Classifier: Topic :: Text Processing :: Linguistic
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
-Requires-Dist: nltk>=3.8.1
-Requires-Dist: spacy>=3.6.0
+Requires-Dist: spellchecker
+Requires-Dist: matplotlib
+Requires-Dist: pandas
+Requires-Dist: spacy==3.4.1
+Requires-Dist: numpy==1.21.6
+Requires-Dist: nltk==3.9.1
 Provides-Extra: dev
 Requires-Dist: pytest>=7.2.0; extra == "dev"
 Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
@@ -163,3 +169,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### Notes:
 - Replace the repository URL in the `git clone` command with your actual GitHub repository URL.
 - Update any project-specific features or configurations that might be necessary.
+
+
+# ________________________________________________________________________________________________
