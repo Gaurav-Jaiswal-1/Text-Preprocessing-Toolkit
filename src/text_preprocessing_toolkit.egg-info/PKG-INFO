@@ -1,38 +1,24 @@
 Metadata-Version: 2.1
 Name: Text_Preprocessing_Toolkit
 Version: 0.0.1
-Summary: Automate text preprocessing tasks like tokenization, lemmatization, stop word removal, and normalization.
+Summary: A package that automates text preprocessing
 Home-page: https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit.git
 Author: Gaurav Jaiswal
-Author-email: jaiswalgaurav863@gmail.com
+Author-email: Gaurav Jaiswal <jaiswalgaurav863@gmail.com>
 License: MIT
-Project-URL: Bug Tracker, https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/issues
-Project-URL: Documentation, https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/wiki
-Keywords: text preprocessing toolkit,automated text preprocessing
-Classifier: Development Status :: 3 - Alpha
-Classifier: Programming Language :: Python :: 3.8
-Classifier: Programming Language :: Python :: 3.9
-Classifier: Programming Language :: Python :: 3.10
-Classifier: Programming Language :: Python :: 3.11
+Project-URL: Homepage, https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit
+Project-URL: Issues, https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/issues
+Keywords: text preprocessing,toolkit,automation
+Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
-Classifier: Topic :: Text Processing :: Linguistic
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
 Requires-Dist: spellchecker
 Requires-Dist: matplotlib
 Requires-Dist: pandas
-Requires-Dist: spacy==3.4.1
-Requires-Dist: numpy==1.21.6
-Requires-Dist: nltk==3.9.1
-Provides-Extra: dev
-Requires-Dist: pytest>=7.2.0; extra == "dev"
-Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
-Requires-Dist: flake8>=6.0.0; extra == "dev"
-Requires-Dist: black>=23.1.0; extra == "dev"
-Requires-Dist: mypy>=0.991; extra == "dev"
-Requires-Dist: sphinx>=7.1.2; extra == "dev"
-Requires-Dist: sphinx-rtd-theme>=1.2.0; extra == "dev"
+Requires-Dist: spacy
+Requires-Dist: nltk
 
 
 
