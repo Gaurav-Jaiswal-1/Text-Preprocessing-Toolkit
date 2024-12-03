@@ -1,5 +1,5 @@
 Metadata-Version: 2.1
-Name: Text-Preprocessing-Toolkit
+Name: TPT
 Version: 0.0.2
 Summary: A package that automates text preprocessing
 Home-page: https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit.git
@@ -8,7 +8,7 @@ Author-email: Gaurav Jaiswal <jaiswalgaurav863@gmail.com>
 License: MIT
 Project-URL: Homepage, https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit
 Project-URL: Issues, https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/issues
-Keywords: text preprocessing,toolkit,automated text preprocessing
+Keywords: text preprocessing,toolkit,automation
 Classifier: Development Status :: 3 - Alpha
 Classifier: Programming Language :: Python :: 3.8
 Classifier: Programming Language :: Python :: 3.9

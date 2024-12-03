@@ -1,138 +1,166 @@
 
 
-# Text Preprocessing Toolkit
+# Text Preprocessing Toolkit (TPT)
 
-This repository contains a Python package for text preprocessing tasks. The toolkit includes functions for various preprocessing steps such as tokenization, lemmatization, stopword removal, text normalization, and more. It aims to provide a convenient and customizable solution for preparing text data for downstream tasks like natural language processing (NLP) and machine learning.
+**Version:** 0.0.1  
+**Author:** Gaurav Jaiswal  
+A comprehensive Python toolkit for preprocessing text, designed to simplify NLP workflows. This package provides various utilities like stopword removal, punctuation handling, spell-checking, lemmatization, and more to clean and preprocess text effectively.
+
+---
 
 ## Features
 
-- **Lowercasing**: Convert all text to lowercase.
-- **Punctuation Removal**: Remove punctuation marks from text.
-- **Stopword Removal**: Remove common words (e.g., "and", "the") that do not contribute much meaning.
-- **Lemmatization**: Reduce words to their base or root form (e.g., "running" -> "run").
-- **Spell Correction**: Correct misspelled words in the text.
-- **URL and HTML Tag Removal**: Clean URLs and HTML tags from text.
-- **Special Character Removal**: Remove non-alphanumeric characters.
+- **Remove Punctuation:** Strips punctuation marks from text.
+- **Remove Stopwords:** Removes common stopwords to reduce noise in textual data.
+- **Remove Special Characters:** Cleans text by removing unnecessary symbols.
+- **Lowercase Conversion:** Standardizes text to lowercase.
+- **Spell Correction:** Identifies and corrects misspelled words.
+- **Lemmatization:** Converts words to their base forms.
+- **Stemming:** Reduces words to their root forms using a stemming algorithm.
+- **HTML Tag Removal:** Cleans HTML tags from the text.
+- **URL Removal:** Detects and removes URLs.
+- **Customizable Pipeline:** Allows users to apply preprocessing steps in a specified order.
+- **Quick Dataset Preview:** Provides a summary of text datasets, including word and character counts.
 
-## Requirements
-
-- Python 3.8 or higher
-- `flake8` for linting
-- `pytest` for testing
-- Any dependencies defined in `requirements.txt`
+---
 
 ## Installation
 
-To install the package, clone the repository and install the necessary dependencies.
-
-### Clone the repository:
+Clone the repository or install the package using `pip`:
 
 ```bash
-git clone https://github.com/your-username/text-preprocessing-toolkit.git
-cd text-preprocessing-toolkit
+pip install Text_Preprocessing_Toolkit
 ```
 
-### Install dependencies:
+---
+
+## Usage
+
+### Import the Package
+
+```python
+from TPT import TPT
+```
+
+### Initialize the Toolkit
+
+You can add custom stopwords during initialization:
+
+```python
+tpt = TPT(custom_stopwords=["example", "custom"])
+```
+
+### Preprocess Text with Default Pipeline
+
+```python
+text = "This is an <b>example</b> sentence with a URL: https://example.com."
+processed_text = tpt.preprocess(text)
+print(processed_text)
+```
+
+### Customize Preprocessing Steps
+
+```python
+custom_steps = ["lowercase", "remove_punctuation", "remove_stopwords"]
+processed_text = tpt.preprocess(text, steps=custom_steps)
+print(processed_text)
+```
+
+### Quick Dataset Summary
+
+```python
+texts = [
+    "This is a sample text.",
+    "Another <b>example</b> with HTML tags and a URL: https://example.com.",
+    "Spellngg errors corrected!",
+]
+tpt.head(texts, n=3)
+```
+
+---
+
+## Available Methods
+
+| Method                   | Description                                                     |
+|--------------------------|-----------------------------------------------------------------|
+| `remove_punctuation`     | Removes punctuation from text.                                 |
+| `remove_stopwords`       | Removes stopwords from text.                                   |
+| `remove_special_characters` | Cleans text by removing special characters.                  |
+| `remove_url`             | Removes URLs from the text.                                    |
+| `remove_html_tags`       | Strips HTML tags from text.                                    |
+| `correct_spellings`      | Corrects spelling mistakes in the text.                       |
+| `lowercase`              | Converts text to lowercase.                                   |
+| `lemmatize_text`         | Lemmatizes text using WordNet.                                |
+| `stem_text`              | Applies stemming to reduce words to their root forms.         |
+| `preprocess`             | Applies a series of preprocessing steps to the input text.    |
+| `head`                   | Displays a quick summary of a text dataset.                   |
+
+---
+
+## Example Output
+
+### Input
+
+```text
+This is a <b>sample</b> text with a URL: https://example.com. Check spellngg errors!
+```
+
+### Output (Default Pipeline)
+
+```text
+sample text check spelling errors
+```
+
+---
+
+## Requirements
+
+- Python >= 3.8
+- Libraries: `nltk`, `pandas`, `spellchecker`, `IPython`
+
+To install the dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Alternatively, if you want to install the package globally:
-
-```bash
-pip install .
-```
-
-## Usage
-
-You can use this toolkit in your Python project by importing the preprocessing functions:
-
-```python
-from text_preprocessing_toolkit import processor
-
-text = "Your sample text goes here!"
-
-# Preprocess text
-cleaned_text = processor.preprocess(text, steps=[
-    "lowercase",
-    "remove_punctuation",
-    "remove_stopwords",
-    "lemmatize_text",
-    "remove_special_characters",
-    "remove_url",
-    "remove_html_tags",
-    "correct_spellings"
-])
-
-print(cleaned_text)
-```
-
-### Available Preprocessing Steps:
-
-- **lowercase**: Convert text to lowercase.
-- **remove_punctuation**: Remove punctuation characters.
-- **remove_stopwords**: Remove stopwords (common words like 'the', 'and', etc.).
-- **lemmatize_text**: Lemmatize words (reduce to base form).
-- **remove_special_characters**: Remove special characters from text.
-- **remove_url**: Remove URLs from text.
-- **remove_html_tags**: Remove HTML tags.
-- **correct_spellings**: Correct common spelling mistakes.
-
-## Running Tests
-
-This repository includes unit and integration tests using `pytest`. To run the tests:
-
-1. Install `pytest` if you haven't already:
-
-```bash
-pip install pytest
-```
-
-2. Run the tests:
-
-```bash
-pytest
-```
-
-Tests are located in the `tests/` directory.
-
-## Code Linting
-
-This project uses `flake8` for linting. To check the code for style issues:
-
-```bash
-flake8 text_preprocessing_toolkit
-```
-
-## CI/CD
-
-This repository is integrated with GitHub Actions for continuous integration and continuous deployment (CI/CD). Every time a new commit is pushed or a pull request is created to the `main` branch, the following steps will be automatically performed:
-
-- **Linting**: Code will be checked for style issues using `flake8`.
-- **Testing**: Unit tests will be run using `pytest`.
-- **Build**: The package will be built using `python -m build`.
-- **Publish**: The package will be uploaded to PyPI (if a release is created).
+---
 
 ## Contributing
 
-We welcome contributions! If you'd like to contribute to the project, please follow these steps:
+Contributions are welcome! To contribute:
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-name`).
-3. Make your changes and commit them (`git commit -m 'Add feature'`).
-4. Push to your forked repository (`git push origin feature-name`).
-5. Create a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+1. Fork this repository.
+2. Clone your forked repository.
+3. Create a new branch for your feature.
+4. Make your changes, write tests, and ensure the code passes.
+5. Submit a pull request for review.
 
 ---
 
-### Notes:
-- Replace the repository URL in the `git clone` command with your actual GitHub repository URL.
-- Update any project-specific features or configurations that might be necessary.
+## Testing
 
+To test the package locally:
 
-# ________________________________________________________________________________________________
+1. Install development dependencies:
+   ```bash
+   pip install pytest
+   ```
+2. Run tests:
+   ```bash
+   pytest
+   ```
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+---
+
+## Author
+
+- **Gaurav Jaiswal**  
+  [GitHub](https://github.com/Gaurav-Jaiswal-1)  
+

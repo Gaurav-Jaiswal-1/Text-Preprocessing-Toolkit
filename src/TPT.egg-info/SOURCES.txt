@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+src/TPT.egg-info/PKG-INFO
+src/TPT.egg-info/SOURCES.txt
+src/TPT.egg-info/dependency_links.txt
+src/TPT.egg-info/requires.txt
+src/TPT.egg-info/top_level.txt
+src/Text_Preprocessing_Toolkit/TPT.py
+src/Text_Preprocessing_Toolkit/__init__.py

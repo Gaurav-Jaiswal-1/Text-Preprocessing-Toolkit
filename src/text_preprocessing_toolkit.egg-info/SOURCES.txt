@@ -2,8 +2,8 @@ README.md
 pyproject.toml
 setup.cfg
 setup.py
+src/Text_Preprocessing_Toolkit/TPT.py
 src/Text_Preprocessing_Toolkit/__init__.py
-src/Text_Preprocessing_Toolkit/main.py
 src/Text_Preprocessing_Toolkit.egg-info/PKG-INFO
 src/Text_Preprocessing_Toolkit.egg-info/SOURCES.txt
 src/Text_Preprocessing_Toolkit.egg-info/dependency_links.txt

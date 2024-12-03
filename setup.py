@@ -22,8 +22,8 @@ def get_requirements(file_path: str) -> List[str]:
         print(f"Warning: {file_path} not found. Proceeding with empty requirements.")
     return requirements
 
-# Read the long description from the README.md file
-long_description = ""
+# Read the long description from the README.md file or use a fallback description
+long_description = "A powerful toolkit for automating text preprocessing tasks."
 if os.path.exists("README.md"):
     with open("README.md", "r", encoding="utf-8") as f:
         long_description = f.read()
@@ -31,12 +31,12 @@ if os.path.exists("README.md"):
 # Package metadata
 setup(
     name="Text_Preprocessing_Toolkit",  # Package name
-    version="0.0.1",  # Initial version
+    version="0.0.2",  # Initial version
     author="Gaurav Jaiswal",  # Author's name
     author_email="jaiswalgaurav863@gmail.com",  # Author's email
     description=(
-        "Automate text preprocessing tasks like tokenization, lemmatization, "
-        "stop word removal, and normalization."
+        "A Python package for automating text preprocessing tasks like "
+        "tokenization, lemmatization, stop word removal, and normalization."
     ),  # Short description
     long_description=long_description,  # Long description from README.md
     long_description_content_type="text/markdown",  # Content type for PyPI
@@ -56,9 +56,10 @@ setup(
         "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Intended Audience :: Developers",
         "Topic :: Text Processing :: Linguistic",
     ],
-    keywords=["text preprocessing toolkit", "automated text preprocessing"],  # Keywords
+    keywords=["text preprocessing", "NLP toolkit", "text processing"],  # Keywords
     python_requires=">=3.8",  # Minimum Python version
     extras_require={  # Optional development dependencies
         "dev": [
