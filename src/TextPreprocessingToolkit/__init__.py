@@ -1,3 +1,3 @@
-from .TPT import TPT
+from .tptk import TPT
 
 __version__ = "0.0.1"

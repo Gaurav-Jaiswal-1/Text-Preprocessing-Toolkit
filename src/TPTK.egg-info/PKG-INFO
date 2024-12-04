@@ -1,3 +1,29 @@
+Metadata-Version: 2.1
+Name: TPTK
+Version: 0.0.6
+Summary: A package that automates text preprocessing
+Home-page: https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit.git
+Author: Gaurav Jaiswal
+Author-email: Gaurav Jaiswal <jaiswalgaurav863@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit
+Project-URL: Issues, https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/issues
+Keywords: text preprocessing,toolkit,automated text preprocessing
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: pyspellchecker>=0.7.1
+Requires-Dist: spacy>=3.0.0
+Requires-Dist: nltk>=3.6.0
+Requires-Dist: pandas>=1.2.0
+Requires-Dist: matplotlib>=3.3.0
+
 
 
 # **Text Preprocessing Toolkit (TPTK)**

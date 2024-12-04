@@ -1,13 +1,13 @@
 import os
 from pathlib import Path
 
-package_name = "Text_Preprocessing_Toolkit"
+package_name = "TextPreprocessingToolkit"
 
 list_of_files = [
     ".github/workflows/ci.yaml",
     "src/ __init__.py",
     f"src/{package_name}/__init__.py",
-    f"src/{package_name}/TPT.py",
+    f"src/{package_name}/tptk.py",
     "tests/unit/__init__.py",
     "tests/unit/unit.py",
     "tests/integration/__init__.py",

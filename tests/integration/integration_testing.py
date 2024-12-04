@@ -1,5 +1,5 @@
 import unittest
-from src.Text_Preprocessing_Toolkit.TPT import TPT
+from TextPreprocessingToolkit.tptk import TPT
 
 class TestTPT(unittest.TestCase):
     def setUp(self):

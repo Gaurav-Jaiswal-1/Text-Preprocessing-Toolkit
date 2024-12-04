@@ -22,34 +22,43 @@ def get_requirements(file_path: str) -> List[str]:
         print(f"Warning: {file_path} not found. Proceeding with empty requirements.")
     return requirements
 
-# Read the long description from the README.md file or use a fallback description
-long_description = "A powerful toolkit for automating text preprocessing tasks."
+# Read the long description from README.md or use a fallback
+long_description = (
+    "A comprehensive Python package for automating text preprocessing tasks "
+    "such as tokenization, lemmatization, stopword removal, and normalization."
+)
 if os.path.exists("README.md"):
     with open("README.md", "r", encoding="utf-8") as f:
         long_description = f.read()
 
+# Define primary dependencies
+dependencies = [
+    "pyspellchecker>=0.7.1",
+    "spacy>=3.0.0",
+    "nltk>=3.6.0",
+    "pandas>=1.2.0",
+    "matplotlib>=3.3.0",
+]
+
 # Package metadata
 setup(
-    name="Text_Preprocessing_Toolkit",  # Package name
-    version="0.0.2",  # Initial version
-    author="Gaurav Jaiswal",  # Author's name
-    author_email="jaiswalgaurav863@gmail.com",  # Author's email
-    description=(
-        "A Python package for automating text preprocessing tasks like "
-        "tokenization, lemmatization, stop word removal, and normalization."
-    ),  # Short description
-    long_description=long_description,  # Long description from README.md
-    long_description_content_type="text/markdown",  # Content type for PyPI
-    url="https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit.git",  # Repository URL
-    project_urls={  # Additional project links
+    name="TPTK",  # Package name
+    version="0.0.6",  # Incremented version for updates
+    author="Gaurav Jaiswal",
+    author_email="jaiswalgaurav863@gmail.com",
+    description="Automate text preprocessing tasks with ease using TPTK.",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit.git",
+    project_urls={
         "Bug Tracker": "https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/issues",
-        "Documentation": "https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/wiki",
+        "Source Code": "https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit",
     },
-    package_dir={"": "src"},  # Source code is in the `src` directory
-    packages=find_packages(where="src"),  # Automatically find packages in `src`
-    install_requires=get_requirements("requirements.txt"),  # Install dependencies
+    package_dir={"": "src"},  # Source code lives in the `src` directory
+    packages=find_packages(where="src"),  # Automatically discover all packages
+    install_requires=dependencies + get_requirements("requirements.txt"),  # Add dependencies
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
@@ -57,12 +66,21 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
+        "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Text Processing :: Linguistic",
     ],
-    keywords=["text preprocessing", "NLP toolkit", "text processing"],  # Keywords
-    python_requires=">=3.8",  # Minimum Python version
-    extras_require={  # Optional development dependencies
-        "dev": [
+    keywords=[
+        "text preprocessing",
+        "NLP",
+        "natural language processing",
+        "tokenization",
+        "lemmatization",
+        "text cleaning",
+        "TPTK",
+    ],
+    python_requires=">=3.8",  # Specify minimum Python version
+    extras_require={
+        "dev": [  # Developer dependencies
             "pytest>=7.2.0",
             "pytest-cov>=4.0.0",
             "flake8>=6.0.0",
@@ -70,7 +88,12 @@ setup(
             "mypy>=0.991",
             "sphinx>=7.1.2",
             "sphinx-rtd-theme>=1.2.0",
-        ]
+        ],
+        "nlp": dependencies + [  # NLP-specific tools
+            "gensim>=4.0.0",
+        ],
     },
-    include_package_data=True,  # Include additional files like README.md
+    include_package_data=True,  # Include additional files specified in MANIFEST.in
+    license="MIT",  # License type
+    zip_safe=False,  # Ensure package is safe to run zipped
 )

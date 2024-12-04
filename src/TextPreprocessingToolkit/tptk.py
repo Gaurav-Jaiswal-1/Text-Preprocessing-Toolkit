@@ -18,8 +18,8 @@ nltk.download("omw-1.4", quiet=True)
 nltk.download("stopwords", quiet=True)
 
 
-class TPT:
-    __version__ = "0.0.2"  # Add a version attribute for easy version checking
+class TextPreprocessor:
+    __version__ = "0.0.5"  # Updated version
 
     def __init__(self, custom_stopwords: Optional[List[str]] = None) -> None:
         """
@@ -33,8 +33,8 @@ class TPT:
             self.stopwords.update(custom_stopwords)
 
         self.lemmatizer: WordNetLemmatizer = WordNetLemmatizer()
-        self.spell: SpellChecker = SpellChecker()
-        self.ps: PorterStemmer = PorterStemmer()
+        self.spell_checker: SpellChecker = SpellChecker()
+        self.stemmer: PorterStemmer = PorterStemmer()
         self.wordnet_map: dict[str, wordnet] = {
             "N": wordnet.NOUN,
             "V": wordnet.VERB,
@@ -68,7 +68,7 @@ class TPT:
 
     def stem_text(self, text: Optional[str]) -> Optional[str]:
         """Apply stemming to text."""
-        return " ".join([self.ps.stem(word) for word in text.split()]) if text else text
+        return " ".join([self.stemmer.stem(word) for word in text.split()]) if text else text
 
     def lemmatize_text(self, text: Optional[str]) -> Optional[str]:
         """Lemmatize text using WordNet."""
@@ -95,9 +95,9 @@ class TPT:
     def correct_spellings(self, text: Optional[str]) -> Optional[str]:
         """Correct misspelled words in text."""
         if text:
-            misspelled_words = self.spell.unknown(text.split())
+            misspelled_words = self.spell_checker.unknown(text.split())
             return " ".join(
-                [self.spell.correction(word) or word if word in misspelled_words else word for word in text.split()]
+                [self.spell_checker.correction(word) or word if word in misspelled_words else word for word in text.split()]
             )
         return text
 
@@ -156,8 +156,11 @@ class TPT:
 
 
 if __name__ == "__main__":
-    tpt = TPT()
-    print(f"TPT Version: {TPT.__version__}")  # Display the version
+    # Correct class usage
+    tpt = TextPreprocessor()
+    print(f"TextPreprocessor Version: {tpt.__version__}")  # Display the version
+
+    # Sample text for testing
     text = "This is a sample <b>HTML</b> text with a URL: https://example.com. Check spellngg errors!"
     processed = tpt.preprocess(text)
     print("Processed Text:", processed)
