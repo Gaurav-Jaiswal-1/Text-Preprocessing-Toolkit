@@ -4,22 +4,31 @@ import pandas as pd
 from collections import Counter
 from nltk.corpus import stopwords, wordnet
 from nltk.stem import PorterStemmer, WordNetLemmatizer
-from nltk import pos_tag
+from nltk import pos_tag, word_tokenize
 from spellchecker import SpellChecker
 from typing import List, Optional, Union
 from IPython.display import display
+import logging
 
 # Download required NLTK resources if not already downloaded
 import nltk
 
-nltk.download("averaged_perceptron_tagger", quiet=True)
+nltk.download("averaged_perceptron_tagger", quiet=True)  # Fixed resource name
 nltk.download("wordnet", quiet=True)
 nltk.download("omw-1.4", quiet=True)
 nltk.download("stopwords", quiet=True)
+nltk.download("punkt", quiet=True)  # Tokenizer required for word_tokenize
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
 class TextPreprocessor:
-    __version__ = "0.0.5"  # Updated version
+    """
+    A comprehensive text preprocessing class supporting common NLP tasks, 
+    such as tokenization, removing stopwords, lemmatization, stemming, and more.
+    """
+    __version__ = "0.0.7"  # Updated version with tokenization and bug fixes
 
     def __init__(self, custom_stopwords: Optional[List[str]] = None) -> None:
         """
@@ -43,12 +52,18 @@ class TextPreprocessor:
         }
 
     def _safe_call(self, func, text: Optional[str]) -> Optional[str]:
-        """Helper function to safely call processing methods."""
+        """
+        Helper function to safely call processing methods and log errors.
+        """
         try:
             return func(text)
         except Exception as e:
-            print(f"Error in '{func.__name__}': {e}")
+            logging.error(f"Error in '{func.__name__}': {e}")
             return text
+
+    def tokenize(self, text: Optional[str]) -> Optional[List[str]]:
+        """Tokenize text into words."""
+        return word_tokenize(text) if text else []
 
     def remove_punctuation(self, text: Optional[str]) -> Optional[str]:
         """Remove punctuation from text."""
@@ -56,11 +71,8 @@ class TextPreprocessor:
 
     def remove_stopwords(self, text: Optional[str]) -> Optional[str]:
         """Remove stopwords from text."""
-        return (
-            " ".join([word for word in text.split() if word.lower() not in self.stopwords])
-            if text
-            else text
-        )
+        tokens = self.tokenize(text)
+        return " ".join([word for word in tokens if word.lower() not in self.stopwords]) if text else text
 
     def remove_special_characters(self, text: Optional[str]) -> Optional[str]:
         """Remove special characters from text."""
@@ -68,12 +80,14 @@ class TextPreprocessor:
 
     def stem_text(self, text: Optional[str]) -> Optional[str]:
         """Apply stemming to text."""
-        return " ".join([self.stemmer.stem(word) for word in text.split()]) if text else text
+        tokens = self.tokenize(text)
+        return " ".join([self.stemmer.stem(word) for word in tokens]) if text else text
 
     def lemmatize_text(self, text: Optional[str]) -> Optional[str]:
         """Lemmatize text using WordNet."""
         if text:
-            pos_text = pos_tag(text.split())
+            tokens = self.tokenize(text)
+            pos_text = pos_tag(tokens)
             return " ".join(
                 [
                     self.lemmatizer.lemmatize(
@@ -94,10 +108,11 @@ class TextPreprocessor:
 
     def correct_spellings(self, text: Optional[str]) -> Optional[str]:
         """Correct misspelled words in text."""
-        if text:
-            misspelled_words = self.spell_checker.unknown(text.split())
+        tokens = self.tokenize(text)
+        if tokens:
+            misspelled_words = self.spell_checker.unknown(tokens)
             return " ".join(
-                [self.spell_checker.correction(word) or word if word in misspelled_words else word for word in text.split()]
+                [self.spell_checker.correction(word) if word in misspelled_words else word for word in tokens]
             )
         return text
 
@@ -135,6 +150,7 @@ class TextPreprocessor:
 
         for step in steps:
             text = self._safe_call(getattr(self, step), text)
+            logging.info(f"Step '{step}' completed.")
         return text
 
     def head(self, texts: Union[List[str], pd.Series], n: int = 5) -> None:
@@ -149,18 +165,14 @@ class TextPreprocessor:
         None
         """
         if isinstance(texts, (list, pd.Series)):
-            data = pd.DataFrame({"Text": texts[:n]})
-            data["Word Count"] = data["Text"].apply(lambda x: len(x.split()))
-            data["Character Count"] = data["Text"].apply(len)
+            data = pd.DataFrame({"Original Text": texts[:n]})
+            data["Processed Text"] = data["Original Text"].apply(self.preprocess)
+            data["Word Count"] = data["Processed Text"].apply(lambda x: len(x.split()))
+            data["Character Count"] = data["Processed Text"].apply(len)
             display(data)
 
 
 if __name__ == "__main__":
     # Correct class usage
     tpt = TextPreprocessor()
-    print(f"TextPreprocessor Version: {tpt.__version__}")  # Display the version
 
-    # Sample text for testing
-    text = "This is a sample <b>HTML</b> text with a URL: https://example.com. Check spellngg errors!"
-    processed = tpt.preprocess(text)
-    print("Processed Text:", processed)
