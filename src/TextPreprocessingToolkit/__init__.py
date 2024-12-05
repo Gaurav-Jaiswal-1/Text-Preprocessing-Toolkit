@@ -1,3 +1,3 @@
-from .tptk import TPT
+from .tptk import TextPreprocessor
 
-__version__ = "0.0.1"
+__all__ = ["TextPreprocessor"]

@@ -69,10 +69,9 @@ class TextPreprocessor:
         """Remove punctuation from text."""
         return text.translate(str.maketrans("", "", string.punctuation)) if text else text
 
-    def remove_stopwords(self, text: Optional[str]) -> Optional[str]:
-        """Remove stopwords from text."""
-        tokens = self.tokenize(text)
-        return " ".join([word for word in tokens if word.lower() not in self.stopwords]) if text else text
+    def remove_stopwords(self, tokens: List[str]) -> List[str]:
+        return [word for word in tokens if word.lower() not in self.stopwords]
+
 
     def remove_special_characters(self, text: Optional[str]) -> Optional[str]:
         """Remove special characters from text."""
