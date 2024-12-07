@@ -1,167 +1,180 @@
 
 
-# **Text Preprocessing Toolkit (TPTK)**
+# TextPreprocessor
 
-![Build Status](https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit/actions/workflows/ci.yaml/badge.svg)  
-_A comprehensive Python library to streamline text preprocessing tasks, designed for NLP projects._
-
----
-
-## **Table of Contents**
-1. [Overview](#overview)
-2. [Features](#features)
-3. [Installation](#installation)
-4. [Getting Started](#getting-started)
-    - [Basic Usage](#basic-usage)
-    - [Custom Preprocessing](#custom-preprocessing)
-5. [Examples](#examples)
-6. [Contributing](#contributing)
-7. [License](#license)
-8. [Contact](#contact)
+`TextPreprocessor` is a comprehensive Python library for text preprocessing in NLP tasks. It includes a suite of features such as tokenization, punctuation removal, stopword removal, lemmatization, spell correction, and more. This package is designed to streamline and simplify text preprocessing for data analysis, machine learning, and natural language processing projects.
 
 ---
 
-## **Overview**
+## Features
 
-The **Text Preprocessing Toolkit (TPTK)** is a Python library designed to simplify the preprocessing of raw text data. Whether you're working on an NLP project, a machine learning pipeline, or simply cleaning text data, TPTK provides an easy-to-use, customizable solution for common text preprocessing needs.
-
----
-
-## **Features**
-- **Text Cleaning**:
-  - Remove punctuation, special characters, HTML tags, and URLs.
-- **Normalization**:
-  - Convert text to lowercase, handle diacritics, and normalize Unicode.
-- **Tokenization**:
-  - Split text into words or sentences.
-- **Stopword Removal**:
-  - Remove common stopwords or use a custom list.
-- **Lemmatization & Stemming**:
-  - Normalize words to their base form.
-- **Spell Correction**:
-  - Automatically fix spelling errors.
-- **Custom Pipelines**:
-  - Select and order the preprocessing steps to suit your needs.
+- Tokenization
+- Stopword removal (with customizable stopwords)
+- Punctuation removal
+- Special character removal
+- URL and HTML tag removal
+- Lowercasing
+- Lemmatization (WordNet-based)
+- Spell correction
+- Modular preprocessing pipeline
 
 ---
 
-## **Installation**
+## Installation
 
-Install the package using pip:
+Ensure the following dependencies are installed:
+- Python 3.7 or higher
+- Required Python packages:
+  ```bash
+  pip install nltk pyspellchecker pandas
+  ```
 
-```bash
-pip install TPTK
-```
-
-Alternatively, install directly from the GitHub repository:
-
-```bash
-pip install git+https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit.git
-```
-
----
-
-## **Getting Started**
-
-### **Basic Usage**
-Import the library and start preprocessing:
+Additionally, download required NLTK resources:
 ```python
-from TextPreprocessingToolkit.tptk import TextPreprocessor
+import nltk
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+nltk.download('stopwords')
+nltk.download('punkt')
+```
 
-# Initialize the preprocessor
-preprocessor = TextPreprocessor()
+---
 
-# Sample text
-text = "This is <b>sample</b> text with a URL: https://example.com and speelingg errors."
+## Usage
 
-# Apply preprocessing
-processed_text = preprocessor.preprocess(text)
+### Initialization
 
+Import the `TextPreprocessing` class and initialize it. Optionally, pass a list of custom stopwords:
+
+```python
+from textPreprocessingToolkit import TextPreprocessor
+
+# Initialize with optional custom stopwords
+tpt = TextPreprocessor(custom_stopwords=["example", "test"])
+```
+
+---
+
+### Preprocessing Text
+
+Preprocess a single piece of text by specifying a sequence of preprocessing steps:
+
+```python
+text = "Hello! This is an <b>example</b> sentence. Visit https://example.com for more info!"
+processed_text = tpt.preprocess(
+    text, 
+    steps=[
+        "lowercase",
+        "remove_punctuation",
+        "remove_special_characters",
+        "remove_url",
+        "remove_html_tags",
+        "correct_spellings",
+        "lemmatize_text"
+    ]
+)
 print("Processed Text:", processed_text)
 ```
 
-### **Custom Preprocessing**
-You can define a custom pipeline for your preprocessing needs:
-```python
-custom_steps = [
-    "lowercase",
-    "remove_url",
-    "remove_punctuation",
-    "correct_spellings"
-]
-
-processed_text = preprocessor.preprocess(text, steps=custom_steps)
-print("Custom Processed Text:", processed_text)
+**Output:**
+```
+Processed Text: hello this is an example sentence visit for more info
 ```
 
 ---
 
-## **Examples**
+### Batch Processing
 
-### **Analyze Text Data**
-You can pass a list of texts and get an overview of their structure:
+You can preprocess a batch of texts and view a summary:
+
 ```python
 texts = [
-    "Text example 1 with HTML tags <b>bold</b>!",
-    "Another text with a URL: https://example.com.",
-    "Missspelled word is heree!"
+    "NLP preprocessing includes tokenization, lemmatization, and stemming.",
+    "Special characters like @, $, %, &, should be removed!",
+    "Spelling erorrs in this sentense should be fixed.",
 ]
-
-preprocessor.head(texts)
+tpt.head(texts, n=3)
 ```
 
-### **Preprocess a Dataset**
-TPTK works seamlessly with pandas:
+This will display a table (in Jupyter or IPython environments) with the following columns:
+- **Original Text**
+- **Processed Text**
+- **Word Count**
+- **Character Count**
+
+---
+
+### Modular Methods
+
+You can also use individual methods for specific preprocessing tasks:
+
 ```python
-import pandas as pd
-from TextPreprocessingToolkit.tptk import TextPreprocessor
-
-# Sample data
-data = {"texts": ["Hello, <b>world</b>!", "Check out https://example.com.", "Thiss is a missspelled text."]}
-df = pd.DataFrame(data)
-
-# Initialize the preprocessor
-preprocessor = TextPreprocessor()
-
-# Apply preprocessing to a column
-df["processed_texts"] = df["texts"].apply(preprocessor.preprocess)
-print(df)
+text = "Check for spelling erorrs in this sentense."
+print("Tokenized:", tpt.tokenize(text))
+print("Spell-corrected:", tpt.correct_spellings(text))
+print("Lemmatized:", tpt.lemmatize_text(text))
 ```
 
 ---
 
-## **Contributing**
+## Class Documentation
 
-We welcome contributions to improve the toolkit! To contribute:
+### `TextPreprocessor`
+
+#### Initialization:
+```python
+TextPreprocessor(custom_stopwords: Optional[List[str]] = None)
+```
+- `custom_stopwords`: (Optional) A list of additional stopwords to remove.
+
+#### Methods:
+- **`preprocess(text: str, steps: Optional[List[str]] = None) -> str`**
+  - Preprocesses the input text according to the specified pipeline steps.
+- **`tokenize(text: str) -> List[str]`**
+  - Tokenizes text into words.
+- **`remove_punctuation(text: str) -> str`**
+  - Removes punctuation from the text.
+- **`remove_stopwords(tokens: List[str]) -> List[str]`**
+  - Removes stopwords from a tokenized list.
+- **`remove_special_characters(text: str) -> str`**
+  - Removes non-alphanumeric characters from the text.
+- **`correct_spellings(text: str) -> str`**
+  - Corrects misspellings in the text.
+- **`lemmatize_text(text: str) -> str`**
+  - Lemmatizes text using WordNet.
+
+---
+
+## Logging
+
+The package includes built-in logging for debugging and tracking progress. Logs are displayed for each preprocessing step completed.
+
+---
+
+## Contributing
+
+Contributions are welcome! To contribute:
 1. Fork the repository.
-2. Clone your fork and create a new branch:
-   ```bash
-   git checkout -b feature-branch-name
-   ```
-3. Make your changes and commit:
-   ```bash
-   git commit -m "Describe your changes"
-   ```
-4. Push your changes:
-   ```bash
-   git push origin feature-branch-name
-   ```
-5. Create a Pull Request (PR) to the main repository.
-
-For detailed contribution guidelines, check the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+2. Create a feature branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -m 'Add feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Open a pull request.
 
 ---
 
-## **License**
+## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ---
 
-## **Contact**
+## Author
 
-For questions or support, feel free to reach out:
-- **Author:** Gaurav Jaiswal
-- **Email:** [jaiswalgaurav863@gmail.com](mailto:jaiswalgaurav863@gmail.com)
-- **GitHub:** [@Gaurav-Jaiswal-1](https://github.com/Gaurav-Jaiswal-1)
+Developed by **[Your Name]**. Feel free to reach out for suggestions or collaboration!
+
+---
+
+## Feedback
+
+If you encounter any issues or have suggestions for improvement, please open an issue on GitHub or contact jaiswalgaurav863@gmail.com.
 

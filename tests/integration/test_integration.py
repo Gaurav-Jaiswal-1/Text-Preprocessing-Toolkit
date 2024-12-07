@@ -1,21 +1,26 @@
-import pytest
+import unittest
 from src.TextPreprocessingToolkit.tptk import TextPreprocessor
 
-@pytest.fixture
-def preprocessor():
-    """Fixture to initialize the TextPreprocessor instance."""
-    return TextPreprocessor()
 
-def test_preprocess_pipeline(preprocessor):
-    text = "Running wolves are quickly eating. Visit https://example.com for details!"
-    steps = [
-        "lowercase",
-        "remove_punctuation",
-        "remove_stopwords",
-        "remove_special_characters",
-        "remove_url",
-        "lemmatize_text",
-    ]
-    processed_text = preprocessor.preprocess(text, steps=steps)
-    expected = "run wolf quickly eat visit detail"
-    assert processed_text == expected, f"Unexpected result: {processed_text}"
+class TestTextPreprocessorIntegration(unittest.TestCase):
+    def setUp(self):
+        self.text_preprocessor = TextPreprocessor()
+        self.sample_texts = [
+            "Hello, World! Visit https://example.com for more info.",
+            "<h1>Title</h1><p>This is a paragraph.</p>",
+            "Speling erors are comman in texts.",
+        ]
+
+    def test_full_pipeline(self):
+        expected_results = [
+            "hello world visit example com for more info",
+            "title this is a paragraph",
+            "spelling errors are common in texts",
+        ]
+        for text, expected in zip(self.sample_texts, expected_results):
+            result = self.text_preprocessor.preprocess(text)
+            self.assertEqual(result, expected)
+
+
+if __name__ == "__main__":
+    unittest.main()
