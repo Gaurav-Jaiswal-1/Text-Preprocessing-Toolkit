@@ -3,7 +3,7 @@ import re
 import pandas as pd
 from collections import Counter
 from nltk.corpus import stopwords, wordnet
-from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk.stem import WordNetLemmatizer
 from nltk import pos_tag, word_tokenize
 from spellchecker import SpellChecker
 from typing import List, Optional, Union
@@ -21,12 +21,11 @@ nltk.download("punkt", quiet=True)
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-
 class TextPreprocessor:
     """
     Comprehensive text preprocessing class for NLP tasks.
     """
-    __version__ = "1.0.0"  # Updated version with streamlined functionality
+    __version__ = "1.1.0"  # Updated version with optimized code
 
     def __init__(self, custom_stopwords: Optional[List[str]] = None) -> None:
         """
@@ -40,9 +39,7 @@ class TextPreprocessor:
             self.stopwords.update(custom_stopwords)
 
         self.lemmatizer = WordNetLemmatizer()
-        self.stemmer = PorterStemmer()
         self.spell_checker = SpellChecker()
-
         self.wordnet_map = {
             "N": wordnet.NOUN,
             "V": wordnet.VERB,
@@ -50,23 +47,13 @@ class TextPreprocessor:
             "R": wordnet.ADV,
         }
 
-    def _apply_func(self, func, text: Optional[str]) -> Optional[str]:
-        """
-        Safely apply a function to text and log errors.
-        """
-        try:
-            return func(text)
-        except Exception as e:
-            logging.error(f"Error in '{func.__name__}': {e}")
-            return text
-
     def tokenize(self, text: Optional[str]) -> List[str]:
         """Tokenize text into words."""
         return word_tokenize(text) if text else []
 
     def remove_punctuation(self, text: Optional[str]) -> Optional[str]:
         """Remove punctuation from text."""
-        return text.translate(str.maketrans("", "", string.punctuation)) if text else text
+        return re.sub(f"[{re.escape(string.punctuation)}]", "", text) if text else text
 
     def remove_stopwords(self, tokens: List[str]) -> List[str]:
         """Remove stopwords from tokenized text."""
@@ -92,9 +79,7 @@ class TextPreprocessor:
         if not text:
             return text
         tokens = self.tokenize(text)
-        return " ".join(
-            [self.spell_checker.correction(word) if word in self.spell_checker else word for word in tokens]
-        )
+        return " ".join(self.spell_checker.correction(word) if word in self.spell_checker else word for word in tokens)
 
     def lowercase(self, text: Optional[str]) -> Optional[str]:
         """Convert text to lowercase."""
@@ -126,18 +111,21 @@ class TextPreprocessor:
 
         steps = steps or [
             "lowercase",
-            "remove_punctuation",
-            "remove_special_characters",
             "remove_url",
             "remove_html_tags",
+            "remove_punctuation",
+            "remove_special_characters",
             "correct_spellings",
             "lemmatize_text",
         ]
 
         for step in steps:
-            func = getattr(self, step)
-            text = self._apply_func(func, text)
-            logging.info(f"Step '{step}' completed.")
+            try:
+                func = getattr(self, step)
+                text = func(text)
+                logging.info(f"Step '{step}' completed.")
+            except Exception as e:
+                logging.error(f"Error during step '{step}': {e}")
         return text
 
     def head(self, texts: Union[List[str], pd.Series], n: int = 5) -> None:
@@ -151,7 +139,7 @@ class TextPreprocessor:
         if isinstance(texts, (list, pd.Series)):
             data = pd.DataFrame({"Original Text": texts[:n]})
             data["Processed Text"] = data["Original Text"].apply(self.preprocess)
-            data["Word Count"] = data["Processed Text"].apply(lambda x: len(x.split()))
+            data["Word Count"] = data["Processed Text"].apply(lambda x: len(x.split()) if x else 0)
             data["Character Count"] = data["Processed Text"].apply(len)
             display(data)
 
