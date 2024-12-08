@@ -1,8 +1,28 @@
 from setuptools import setup, find_packages
+from setuptools.command.install import install
+import nltk
+
+class PostInstallCommand(install):
+    """Post-installation for installing NLTK resources."""
+
+    def run(self):
+        install.run(self)
+        resources = [
+            "averaged_perceptron_tagger_eng",
+            "wordnet",
+            "stopwords",
+            "punkt_tab",
+        ]
+        for resource in resources:
+            try:
+                nltk.download(resource, quiet=True)
+            except Exception as e:
+                print(f"Failed to download resource {resource}: {e}")
+
 
 setup(
     name="TPTK",
-    version="0.0.8",
+    version="1.0.1",
     author="Gaurav Jaiswal",
     author_email="jaiswalgaurav863@gmail.com",
     description="Automate text preprocessing tasks with ease.",
@@ -17,4 +37,7 @@ setup(
         "pandas>=1.2.0",
     ],
     python_requires=">=3.8",
+    cmdclass={
+        'install': PostInstallCommand,
+    },
 )

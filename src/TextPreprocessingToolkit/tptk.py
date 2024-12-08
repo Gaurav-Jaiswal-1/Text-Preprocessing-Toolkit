@@ -12,20 +12,20 @@ import logging
 
 # Download required NLTK resources
 import nltk
-nltk.download("averaged_perceptron_tagger", quiet=True)
+nltk.download("averaged_perceptron_tagger_eng", quiet=True)
 nltk.download("wordnet", quiet=True)
 nltk.download("omw-1.4", quiet=True)
 nltk.download("stopwords", quiet=True)
-nltk.download("punkt", quiet=True)
+nltk.download("punkt_tab", quiet=True)
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 class TextPreprocessor:
     """
     Comprehensive text preprocessing class for NLP tasks.
     """
-    __version__ = "1.1.0"  # Updated version with optimized code
+    __version__ = "1.0.1"  # Updated version with optimized code
 
     def __init__(self, custom_stopwords: Optional[List[str]] = None) -> None:
         """
@@ -142,6 +142,29 @@ class TextPreprocessor:
             data["Word Count"] = data["Processed Text"].apply(lambda x: len(x.split()) if x else 0)
             data["Character Count"] = data["Processed Text"].apply(len)
             display(data)
+
+
+    def preprocess_dataset(self, texts: Union[List[str], pd.Series], n: int = 5) -> pd.DataFrame:
+        """
+        Preprocess a dataset of text entries.
+
+        Parameters:
+        texts (list or pd.Series): The dataset or list of text entries.
+        n (int): Number of rows to display.
+
+        Returns:
+        pd.DataFrame: DataFrame with processed text and statistics.
+        """
+        if not isinstance(texts, (list, pd.Series)):
+            logging.error(f"Invalid input type. Expected list or pandas Series, got {type(texts)}.")
+            return pd.DataFrame()
+
+        data = pd.DataFrame({"Original Text": texts})
+        data["Processed Text"] = data["Original Text"].apply(self.preprocess)
+        data["Word Count"] = data["Processed Text"].apply(lambda x: len(x.split()))
+        data["Character Count"] = data["Processed Text"].apply(lambda x: len(x))
+        display(data.head(n))
+        return data
 
 
 if __name__ == "__main__":
