@@ -2,18 +2,18 @@
 pyspellchecker>=0.7.1
 matplotlib>=3.1
 pandas>=1.1
-spacy>=3.0  # Compatible with Python 3.8
+spacy>=3.0  
 nltk>=3.5
 
 
 -e .
 
 # Development dependencies
-pytest       # Testing framework
-pytest-cov   # Coverage reporting
-flake8       # Linting
-black        # Code formatting
-mypy         # Static type checking
-sphinx       # Documentation generation
-sphinx-rtd-theme  # Sphinx theme for documentation
+pytest       
+pytest-cov  
+flake8       
+black        
+mypy        
+sphinx 
+sphinx-rtd-theme  
 

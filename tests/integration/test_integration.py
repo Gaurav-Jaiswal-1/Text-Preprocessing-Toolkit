@@ -1,5 +1,5 @@
 import unittest
-from src.TextPreprocessingToolkit.tptk import TextPreprocessor
+from TextPreprocessingToolkit import TextPreprocessor
 
 
 class TestTextPreprocessorIntegration(unittest.TestCase):

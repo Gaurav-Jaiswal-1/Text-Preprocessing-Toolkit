@@ -1,0 +1,14 @@
+text:
+  column: review
+  steps: [clean, tokenize, stopwords, lemmatize]
+  spell: false
+
+numerical:
+  columns: [age, income, rating]
+  impute: median
+  scale: standard
+  outliers: iqr
+
+categorical:
+  columns: [gender, city]
+  type: onehot
