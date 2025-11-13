@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: TPTK
-Version: 1.0.3
+Version: 1.0.4
 Summary: A Python package for automating text preprocessing tasks.
 Home-page: https://github.com/Gaurav-Jaiswal-1/Text-Preprocessing-Toolkit
 Author: Gaurav Jaiswal
@@ -32,8 +32,7 @@ TPTK is a Python package designed to automate data preprocessing tasks for machi
 - **Pipeline**: Configurable preprocessing pipeline using YAML/JSON files for batch processing CSV files.
 - **Chunked Processing**: Handles large datasets by processing in chunks.
 - **Reporting**: Generates JSON reports summarizing preprocessing actions.
-- **CLI Support**: Run preprocessing via command-line arguments.
-- **Extensible**: Modular classes for custom workflows.
+
 
 ## Installation
 
@@ -65,9 +64,6 @@ During installation, NLTK resources (e.g., stopwords, wordnet) are automatically
 - `scikit-learn` (for encoding and scaling)
 - `joblib` (for saving encoders)
 
-For development/testing:
-- `pytest`, `flake8`, `mypy`, etc. (install via `pip install -r requirements_dev.txt`)
-
 ## Quick Start
 
 ### Step 1: Prepare Your Data
@@ -83,82 +79,15 @@ review,age,rating,gender
 "Excellent quality.",42,,Male
 ```
 
-### Step 2: Create a Configuration File (Optional but Recommended for Pipeline)
-
-Create a YAML or JSON config file (e.g., `pipeline_example.yaml`):
-
-```yaml
-text:
-  column: review
-  steps: [clean, tokenize, stopwords, lemmatize]
-  spell: false
-numerical:
-  columns: [age, rating]
-  impute: median
-  scale: standard
-  outliers: iqr
-categorical:
-  columns: [gender]
-  type: onehot
-```
-
-- **Text Section**: Specify the text column and steps (`clean`, `tokenize`, `stopwords`, `lemmatize`, `spell`).
-- **Numerical Section**: List columns, imputation strategy, scaling, and outlier removal.
-- **Categorical Section**: List columns and encoding type (`label` or `onehot`).
-
-### Step 3: Run Preprocessing via CLI
-
-Use the CLI to preprocess your CSV file:
-
-```bash
-dataprepkit preprocess --input input.csv --output output.csv --config pipeline_example.yaml --chunksize 5000
-```
-
-- `--input`: Path to input CSV.
-- `--output`: Path to output CSV.
-- `--config`: Path to YAML/JSON config (optional; if omitted, use `--text` for text-only processing).
-- `--chunksize`: Process in chunks of this size (default: 10000).
-- `--text`: Text column name (for text-only mode).
-- `--steps`: Text processing steps (default: `clean`, `tokenize`, `lemmatize`).
-
-This will apply the pipeline, save the processed data to `output.csv`, and generate a `preprocessing_report.json`.
-
-Example Output (`output.csv` after processing):
-
-```
-review,age,rating,gender_Female,gender_Male
-great product,35.0,4.5,0.0,1.0
-bad experience wont buy,0.0,3.0,1.0,0.0
-excellent quality,42.0,0.0,0.0,1.0
-```
-
-(Note: Numerical values are imputed/scaled, text is processed, categoricals are encoded.)
-
-### Step 4: Programmatic Usage
+### Step 2: Programmatic Usage
 
 For more control, use the API in your Python scripts.
-
-#### Example: Full Pipeline
-
-```python
-from TPTK.pipeline import PreprocessingPipeline
-
-# Initialize with config
-pipeline = PreprocessingPipeline('pipeline_example.yaml')
-
-# Fit and transform CSV
-pipeline.fit_transform('input.csv', 'output.csv', chunksize=10000)
-
-# Get report
-report = pipeline.report
-print(report)
-```
 
 #### Example: Text Preprocessing Only
 
 ```python
 
-from TPTK.text_preprocessor import TextPreprocessor
+from tptk.text_preprocessor import TextPreprocessor
 import pandas as pd
 
 # Download
@@ -182,7 +111,7 @@ tp.process_csv(
 
 ```python
 import pandas as pd
-from TPTK.numerical_preprocessor import NumericalPreprocessor
+from tptk.numerical_preprocessor import NumericalPreprocessor
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
@@ -217,13 +146,12 @@ plt.savefig(f"{OUTPUT_DIR}/housing_plot.png")
 plt.close()
 
 print("Housing: Done")
-print(np_prep.report)
 ```
 
 #### Example: Categorical Preprocessing Only
 
 ```python
-from TPTK.categorical_preprocessor import CategoricalPreprocessor
+from tptk.categorical_preprocessor import CategoricalPreprocessor
 import pandas as pd
 import os
 
@@ -250,6 +178,23 @@ df_ohe = ohe_enc.transform(df, ['Pclass', 'Sex', 'Embarked'])
 df_ohe.to_csv(f"{OUTPUT_DIR}/titanic_ohe.csv", index=False)
 
 print("Titanic: Label →", df_label['Sex'].iloc[0], "| OHE →", df_ohe.filter(like='Sex_').columns)
+```
+
+
+### Troubleshooting NLTK Data
+TPTK bundles punkt_tab, stopwords, wordnet, and averaged_perceptron_tagger_eng.
+On first import, it:
+
+Checks bundled data
+Falls back to nltk.download(..., quiet=True)
+
+## If you see LookupError or download fails:
+```python
+pythonimport nltk
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger_eng')
 ```
 
 ### Step 5: View Reports

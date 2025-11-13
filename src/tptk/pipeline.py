@@ -5,7 +5,7 @@ from typing import Dict, Any
 from .text_preprocessor import TextPreprocessor
 from .numerical_preprocessor import NumericalPreprocessor
 from .categorical_preprocessor import CategoricalPreprocessor
-from .utils import logger, save_report, tqdm
+from .utils import logger, save_report
 
 class PreprocessingPipeline:
     def __init__(self, config_path: str):

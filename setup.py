@@ -16,7 +16,7 @@ class PostInstallCommand(install):
 
 setup(
     name="TPTK",
-    version="1.0.3",  
+    version="1.0.4",  
     author="Gaurav Jaiswal",
     author_email="jaiswalgaurav863@gmail.com",
     description="Automate text preprocessing tasks with ease.",
